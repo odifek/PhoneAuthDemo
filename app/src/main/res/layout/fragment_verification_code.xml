@@ -7,11 +7,11 @@
     </data>
 
     <LinearLayout
-        android:id="@+id/linearlayout_enter_phone"
+        android:id="@+id/linearlayout_verification_code"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:background="@android:color/white">
 
         <TextView
@@ -19,36 +19,39 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginBottom="32dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:text="Please enter your phone number to continue" />
-
+            android:gravity="center"
+            android:text="Please enter the verification code you just received"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textinputlayout_phone_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="32dp"
-            android:layout_marginLeft="32dp"
-            app:errorEnabled="true"
-            app:hintEnabled="true"
-            app:hintAnimationEnabled="true"
-            android:hint="Phone Number">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textinputedittext_phone_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/button_enter_phone_number_continue"
+            android:id="@+id/textinputlayout_verification_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
-            android:text="Continue" />
+            android:hint="Verification Code"
+            app:hintEnabled="true"
+            app:hintAnimationEnabled="true"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textinputedittext_verification_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="6" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_verification_code_verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:text="Verify" />
+
+
     </LinearLayout>
 </layout>
