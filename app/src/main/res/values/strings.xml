@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Phone Auth Demo</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="already_logged_in">\"Welcome %1$s\\nYou are already logged in.\"</string>
 </resources>

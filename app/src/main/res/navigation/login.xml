@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login"
+    app:startDestination="@id/enterNumberPhoneFragment">
+
+    <fragment
+        android:id="@+id/enterNumberPhoneFragment"
+        android:name="com.sprinthubmobile.example.phoneauthdemo.EnterPhoneNumberFragment"
+        android:label="EnterNumberPhoneFragment"
+        tools:layout="@layout/fragment_enter_phone_number">
+        <action
+            android:id="@+id/action_enterNumberPhoneFragment_to_verificationFragment"
+            app:destination="@id/verificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verificationFragment"
+        android:name="com.sprinthubmobile.example.phoneauthdemo.VerificationFragment"
+        android:label="VerificationFragment"
+        tools:layout="@layout/fragment_verification_code"/>
+</navigation>

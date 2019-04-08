@@ -7,6 +7,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.PhoneAuthProvider
 import com.nhaarman.mockitokotlin2.*
+import com.sprinthubmobile.example.phoneauthdemo.Event
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -42,7 +43,7 @@ class LoginViewModelTest {
     private lateinit var SUT: LoginViewModel
 
     @Mock
-    private lateinit var loginResultStateObserver: Observer<Lce<LoginResultState>>
+    private lateinit var loginResultStateObserver: Observer<Lce<Event<LoginResultState>>>
 
     @Mock
     lateinit var loginRepository: LoginRepository
@@ -114,11 +115,11 @@ class LoginViewModelTest {
             Observable.just(LoginResultState.CodeSent(verificationId, resendingToken, ""))
         whenever(loginRepository.verifyPhoneNumber(anyString())).thenReturn(codeSentObservable)
 
-        val phoneVerifyLoading: Lce<LoginResultState> = Lce.Loading(true)
+        val phoneVerifyLoading: Lce<Event<LoginResultState>> = Lce.Loading(true)
         val codeSentResultState: LoginResultState = LoginResultState.CodeSent(verificationId, resendingToken, "")
         val codeSentResultLce: Lce<LoginResultState> = Lce.Content(codeSentResultState)
 
-        val resultCaptor: KArgumentCaptor<Lce<LoginResultState>> = argumentCaptor()
+        val resultCaptor: KArgumentCaptor<Lce<Event<LoginResultState>>> = argumentCaptor()
 
         SUT.loginResultState.observeForever(loginResultStateObserver)
 
@@ -130,10 +131,10 @@ class LoginViewModelTest {
             verify(loginResultStateObserver).onChanged(phoneVerifyLoading)
             verify(loginResultStateObserver).onChanged(resultCaptor.capture())
 
-            val result: Lce<LoginResultState> = resultCaptor.firstValue
+            val result: Lce<Event<LoginResultState>> = resultCaptor.firstValue
             assertThat(
-                result is Lce.Content && result.data
-                        is LoginResultState.CodeSent && (result.data
+                result is Lce.Content && result.data.peekContent()
+                        is LoginResultState.CodeSent && (result.data.peekContent()
                         as LoginResultState.CodeSent).verificationId == verificationId, `is`(true)
             )
         }
@@ -156,11 +157,11 @@ class LoginViewModelTest {
             )
         whenever(loginRepository.verifyPhoneNumber(anyString())).thenReturn(autoVerifySequenceObservable)
 
-        val phoneVerifyLoading: Lce<LoginResultState> = Lce.Loading(true)
+        val phoneVerifyLoading: Lce<Event<LoginResultState>> = Lce.Loading(true)
         val codeSentResultState: LoginResultState = LoginResultState.CodeSent(verificationId, resendingToken, "")
         val codeSentResultLce: Lce<LoginResultState> = Lce.Content(codeSentResultState)
 
-        val resultCaptor: KArgumentCaptor<Lce<LoginResultState>> = argumentCaptor()
+        val resultCaptor: KArgumentCaptor<Lce<Event<LoginResultState>>> = argumentCaptor()
 
         SUT.loginResultState.observeForever(loginResultStateObserver)
 
@@ -172,10 +173,10 @@ class LoginViewModelTest {
             verify(loginResultStateObserver).onChanged(phoneVerifyLoading)
             verify(loginResultStateObserver, times(2)).onChanged(resultCaptor.capture())
 
-            val codeSentResult: Lce<LoginResultState> = resultCaptor.firstValue
-            val loginSuccessResult : Lce<LoginResultState> = resultCaptor.secondValue
-            assertThat(codeSentResult is Lce.Content && codeSentResult.data is LoginResultState.CodeSent, `is`(true))
-            assertThat(loginSuccessResult is Lce.Content && loginSuccessResult.data is LoginResultState.LoginSuccess, `is`(true))
+            val codeSentResult: Lce<Event<LoginResultState>> = resultCaptor.firstValue
+            val loginSuccessResult : Lce<Event<LoginResultState>> = resultCaptor.secondValue
+            assertThat(codeSentResult is Lce.Content && codeSentResult.data.peekContent() is LoginResultState.CodeSent, `is`(true))
+            assertThat(loginSuccessResult is Lce.Content && loginSuccessResult.data.peekContent() is LoginResultState.LoginSuccess, `is`(true))
         }
 
     }
@@ -195,8 +196,8 @@ class LoginViewModelTest {
             )
         whenever(loginRepository.verifyPhoneNumber(anyString())).thenReturn(verifyFailureObservable)
 
-        val phoneVerifyLoading: Lce<LoginResultState> = Lce.Loading(true)
-        val resultCaptor: KArgumentCaptor<Lce<LoginResultState>> = argumentCaptor()
+        val phoneVerifyLoading: Lce<Event<LoginResultState>> = Lce.Loading(true)
+        val resultCaptor: KArgumentCaptor<Lce<Event<LoginResultState>>> = argumentCaptor()
 
         SUT.loginResultState.observeForever(loginResultStateObserver)
 
@@ -208,8 +209,10 @@ class LoginViewModelTest {
             verify(loginResultStateObserver).onChanged(phoneVerifyLoading)
             verify(loginResultStateObserver, times(1)).onChanged(resultCaptor.capture())
 
-            val verificationFailureResult : Lce<LoginResultState> = resultCaptor.firstValue
-            assertThat(verificationFailureResult is Lce.Content && verificationFailureResult.data is LoginResultState.VerificationFailed, `is`(true))
+            val verificationFailureResult : Lce<Event<LoginResultState>> = resultCaptor.firstValue
+            assertThat(verificationFailureResult
+                    is Lce.Content && verificationFailureResult.data .peekContent()
+                    is LoginResultState.VerificationFailed, `is`(true))
         }
 
     }

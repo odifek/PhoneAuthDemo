@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,15 +11,15 @@
         android:id="@+id/linearlayout_verification_code"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:gravity="center"
-        android:orientation="vertical"
-        android:background="@android:color/white">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
             android:gravity="center"
             android:text="Please enter the verification code you just received"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
@@ -27,13 +28,13 @@
             android:id="@+id/textinputlayout_verification_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
+            android:layout_marginRight="32dp"
             android:hint="Verification Code"
-            app:hintEnabled="true"
+            app:errorEnabled="true"
             app:hintAnimationEnabled="true"
-            app:errorEnabled="true">
+            app:hintEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textinputedittext_verification_code"
@@ -43,14 +44,28 @@
                 android:maxLength="6" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/button_verification_code_verify"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
-            android:text="Verify" />
+            android:layout_marginRight="32dp">
+
+            <Button
+                android:id="@+id/button_verification_code_verify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Verify"
+                tools:enabled="false"/>
+
+            <ProgressBar
+                android:id="@+id/progressbar_otp_verify"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+        </FrameLayout>
 
 
     </LinearLayout>

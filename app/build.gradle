@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 28
@@ -45,6 +46,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
     testImplementation 'androidx.arch.core:core-testing:2.0.1'
+    // Mockito kotlin
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
 
     // Arch components
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -52,7 +56,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.0.0'
 
     // Mockito
-    testImplementation 'org.mockito:mockito-core:2.25.0'
+    //testImplementation 'org.mockito:mockito-core:2.25.0'
 
     //Firebase
     implementation 'com.google.firebase:firebase-auth:16.2.0'
@@ -64,4 +68,13 @@ dependencies {
 
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    // Navigation
+    def nav_version = "2.1.0-alpha02"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version" // For Kotlin use navigation-fragment-ktx
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version" // For Kotlin use navigation-ui-ktx
 }

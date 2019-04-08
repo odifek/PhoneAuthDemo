@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthProvider
+import com.sprinthubmobile.example.phoneauthdemo.Event
 import io.reactivex.Scheduler
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.disposables.Disposable
@@ -42,7 +43,7 @@ class LoginFeatureTest {
     lateinit var firebaseAuthEndpoint: FirebaseAuthEndPoint
 
     @Mock
-    private lateinit var loginResultStateObserver: Observer<Lce<LoginResultState>>
+    private lateinit var loginResultStateObserver: Observer<Lce<Event<LoginResultState>>>
 
     lateinit var subject: LoginViewModel
 
@@ -84,9 +85,9 @@ class LoginFeatureTest {
         // Setup
         val phoneNumber = "012345678901"
         val verificationId = "verificationId"
-        val successCodeSent = LoginResultState.CodeSent(verificationId, resendingToken, "")
-        val codeSentState: Lce<LoginResultState> = Lce.Content(successCodeSent)
-        val loadingState: Lce<LoginResultState> = Lce.Loading(true)
+        val successCodeSent: LoginResultState = LoginResultState.CodeSent(verificationId, resendingToken, "")
+        val codeSentState: Lce<Event<LoginResultState>> = Lce.Content(Event(successCodeSent))
+        val loadingState: Lce<Event<LoginResultState>> = Lce.Loading(true)
 
         subject.loginResultState.observeForever(loginResultStateObserver)
 
